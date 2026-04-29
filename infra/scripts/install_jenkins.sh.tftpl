@@ -1,0 +1,145 @@
+#!/bin/bash
+
+export DEBIAN_FRONTEND=noninteractive
+
+apt update -y
+apt upgrade -yq
+
+apt install -y ca-certificates curl gnupg
+
+install -m 0755 -d /etc/apt/keyrings
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" > /etc/apt/sources.list.d/docker.list
+
+apt update -y
+
+apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+systemctl enable docker
+systemctl start docker
+
+sleep 5
+
+docker rm -f jenkins || true
+mkdir -p /tmp/jenkins_ref/casc_configs
+
+
+
+
+
+# CREAR YAML
+
+cat <<EOF > /tmp/jenkins_ref/casc_configs/jenkins.yaml
+jenkins:
+  systemMessage: "Jenkins automatico con Terraform"
+
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: Emanuel4848
+          password: 202303694
+
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+
+unclassified:
+  location:
+    url: http://localhost:8080/
+
+jobs:
+  - script: >
+      job('springboot-ci') {
+        scm {
+          git {
+            remote {
+              url('https://github.com/Emanuel4848/springboot2.git')
+            }
+            branch('*/main')
+          }
+        }
+        triggers {
+          githubPush()
+        }
+        steps {
+          shell('''
+
+            echo "Hello World" 
+            
+            java -version
+
+            export JAVA_HOME=/opt/java/openjdk
+            export PATH=$JAVA_HOME/bin:$PATH
+
+            chmod +x gradlew
+
+            ./gradlew clean test bootJar
+            docker build -t springboot-app .
+            
+            docker tag springboot-app ${registry_ip}:5000/springboot-app
+            docker push ${registry_ip}:5000/springboot-app
+
+            
+          ''')
+        }
+        publishers {
+          archiveJunit('**/build/test-results/test/*.xml')
+          archiveArtifacts('build/libs/*.jar')
+        }
+      }
+EOF
+
+
+
+chown -R 1000:1000 /tmp/jenkins_ref
+
+
+
+# PLUGINS
+docker pull jenkins/jenkins:lts-jdk21
+
+docker run --rm \
+  -v /tmp/jenkins_ref:/usr/share/jenkins/ref \
+  jenkins/jenkins:lts-jdk21 \
+  jenkins-plugin-cli --plugins \
+    git \
+    github \
+    job-dsl \
+    configuration-as-code \
+    junit \
+    workflow-aggregator
+
+
+
+mkdir -p /etc/docker
+
+cat <<EOF > /etc/docker/daemon.json
+{
+  "insecure-registries": ["${registry_ip}:5000"]
+}
+EOF
+
+systemctl restart docker
+
+
+docker run -d \
+  --name jenkins \
+  -p 8080:8080 \
+  -p 50000:50000 \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  -v /tmp/jenkins_ref:/usr/share/jenkins/ref \
+  -e CASC_JENKINS_CONFIG=/var/jenkins_home/casc_configs \
+  -e JAVA_OPTS="-Djenkins.install.runSetupWizard=false -Dcasc.jenkins.config=/var/jenkins_home/casc_configs" \
+  --restart=unless-stopped \
+  jenkins/jenkins:lts-jdk21
+
+# 3. instalar docker CLI
+docker exec -u root jenkins bash -c "apt update && apt install -y docker.io"
+
+# 4. permisos
+docker exec -u root jenkins usermod -aG docker jenkins
+docker exec -u root jenkins chmod 666 /var/run/docker.sock

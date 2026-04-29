@@ -1,0 +1,145 @@
+#!/bin/bash
+
+export DEBIAN_FRONTEND=noninteractive
+
+apt update -y
+apt upgrade -yq
+
+apt install -y ca-certificates curl gnupg
+
+install -m 0755 -d /etc/apt/keyrings
+
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
+chmod a+r /etc/apt/keyrings/docker.asc
+
+echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo $VERSION_CODENAME) stable" > /etc/apt/sources.list.d/docker.list
+
+apt update -y
+
+apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+mkdir -p /etc/docker
+
+cat <<EOF > /etc/docker/daemon.json
+{
+  "insecure-registries": ["${registry_ip}:5000"]
+}
+EOF
+
+systemctl enable docker
+systemctl restart docker
+
+# Cree user runner
+id -u runner >/dev/null 2>&1 || adduser --disabled-password --gecos "" runner
+usermod -aG sudo runner
+usermod -aG docker runner
+
+
+
+# Crear carpeta del proyecto en consumer
+mkdir -p /home/runner/app
+
+cat <<EOF > /home/runner/app/docker-compose.yml
+services:
+  backend-dev:
+    image: ${registry_ip}:5000/springboot-app:latest
+    container_name: backend_dev
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-dev:5432/dev_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin123
+    depends_on:
+      - postgres-dev
+    restart: always
+
+  postgres-dev:
+    image: postgres:15
+    container_name: postgres_dev
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: dev_db
+    ports:
+      - "5452:5432"
+    volumes:
+      - postgres_dev_data:/var/lib/postgresql/data
+    restart: always
+
+  adminer-dev:
+    image: adminer
+    container_name: adminer_dev
+    ports:
+      - "8090:8080"
+    depends_on:
+      - postgres-dev
+    restart: always
+
+  backend-prod:
+    image: ${registry_ip}:5000/springboot-app:latest
+    container_name: backend_prod
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: prod
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-prod:5432/prod_db
+      SPRING_DATASOURCE_USERNAME: prod_user
+      SPRING_DATASOURCE_PASSWORD: prod_pass123
+    depends_on:
+      - postgres-prod
+    restart: always
+
+  postgres-prod:
+    image: postgres:15
+    container_name: postgres_prod
+    environment:
+      POSTGRES_USER: prod_user
+      POSTGRES_PASSWORD: prod_pass123
+      POSTGRES_DB: prod_db
+    ports:
+      - "5453:5432"
+    volumes:
+      - postgres_prod_data:/var/lib/postgresql/data
+    restart: always
+
+  adminer-prod:
+    image: adminer
+    container_name: adminer_prod
+    ports:
+      - "8091:8080"
+    depends_on:
+      - postgres-prod
+    restart: always
+
+volumes:
+  postgres_dev_data:
+  postgres_prod_data:
+EOF
+
+chown -R runner:runner /home/runner/app
+
+
+
+# Instala GitHub Actions Runner
+su - runner -c '
+mkdir -p ~/actions-runner
+cd ~/actions-runner
+
+curl -o actions-runner-linux-x64-2.333.1.tar.gz -L https://github.com/actions/runner/releases/download/v2.333.1/actions-runner-linux-x64-2.333.1.tar.gz
+tar xzf ./actions-runner-linux-x64-2.333.1.tar.gz
+
+./config.sh --unattended \
+  --url https://github.com/Emanuel4848/springboot2 \
+  --token ${github_runner_token} \
+  --name Devconsumer-runner \
+  --labels self-hosted,consumer \
+  --work _work
+'
+
+cd /home/runner/actions-runner
+./svc.sh install runner
+./svc.sh start
+
+
