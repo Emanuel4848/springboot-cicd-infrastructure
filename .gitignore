@@ -22,3 +22,12 @@ Thumbs.db
 
 # Logs
 *.log
+
+**/.terraform/
+*.tfstate
+*.tfstate.*
+terraform.tfvars
+*.tfvars
+terraform.exe
+terraform
+2. Limpia lo
