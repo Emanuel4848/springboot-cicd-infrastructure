@@ -5,7 +5,7 @@ export DEBIAN_FRONTEND=noninteractive
 apt update -y
 apt upgrade -yq
 
-apt install -y ca-certificates curl gnupg
+apt install -y ca-certificates curl gnupg sudo tar
 
 install -m 0755 -d /etc/apt/keyrings
 
@@ -29,21 +29,22 @@ EOF
 systemctl enable docker
 systemctl restart docker
 
-# Cree user runner
+# Crear usuario runner
 id -u runner >/dev/null 2>&1 || adduser --disabled-password --gecos "" runner
 usermod -aG sudo runner
 usermod -aG docker runner
 
-
-
-# Crear carpeta del proyecto en consumer
+# Crear carpeta del proyecto
 mkdir -p /home/runner/app
 
+
+# DOCKER COMPOSE
 cat <<EOF > /home/runner/app/docker-compose.yml
 services:
+
+  # ================= DEV =================
   backend-dev:
     image: ${registry_ip}:5000/springboot-app:latest
-    container_name: backend_dev
     ports:
       - "8080:8080"
     environment:
@@ -57,7 +58,6 @@ services:
 
   postgres-dev:
     image: postgres:15
-    container_name: postgres_dev
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
@@ -70,16 +70,16 @@ services:
 
   adminer-dev:
     image: adminer
-    container_name: adminer_dev
     ports:
       - "8090:8080"
     depends_on:
       - postgres-dev
     restart: always
 
+
+  # ================= PROD =================
   backend-prod:
     image: ${registry_ip}:5000/springboot-app:latest
-    container_name: backend_prod
     ports:
       - "8081:8080"
     environment:
@@ -93,7 +93,6 @@ services:
 
   postgres-prod:
     image: postgres:15
-    container_name: postgres_prod
     environment:
       POSTGRES_USER: prod_user
       POSTGRES_PASSWORD: prod_pass123
@@ -106,7 +105,6 @@ services:
 
   adminer-prod:
     image: adminer
-    container_name: adminer_prod
     ports:
       - "8091:8080"
     depends_on:
@@ -121,8 +119,8 @@ EOF
 chown -R runner:runner /home/runner/app
 
 
+# INSTALAR RUNNER
 
-# Instala GitHub Actions Runner
 su - runner -c '
 mkdir -p ~/actions-runner
 cd ~/actions-runner
@@ -131,7 +129,7 @@ curl -o actions-runner-linux-x64-2.333.1.tar.gz -L https://github.com/actions/ru
 tar xzf ./actions-runner-linux-x64-2.333.1.tar.gz
 
 ./config.sh --unattended \
-  --url https://github.com/Emanuel4848/springboot2 \
+  --url https://github.com/Emanuel4848/springboot-devops-demo \
   --token ${github_runner_token} \
   --name Devconsumer-runner \
   --labels self-hosted,consumer \
@@ -141,5 +139,3 @@ tar xzf ./actions-runner-linux-x64-2.333.1.tar.gz
 cd /home/runner/actions-runner
 ./svc.sh install runner
 ./svc.sh start
-
-

@@ -4,7 +4,7 @@ resource "digitalocean_droplet" "registry" {
   size   = var.registry_size
   image  = var.image
 
-  ssh_keys = ["54362202"]
+  ssh_keys = ["YOUR_SSH_KEY_ID"]
 
   user_data = file("${path.module}/scripts/install_registry.sh")
 

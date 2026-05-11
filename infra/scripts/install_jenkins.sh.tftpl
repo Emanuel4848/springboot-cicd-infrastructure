@@ -40,8 +40,8 @@ jenkins:
     local:
       allowsSignup: false
       users:
-        - id: Emanuel4848
-          password: 202303694
+        - id: Emanuel001
+          password: passexample
 
   authorizationStrategy:
     loggedInUsersCanDoAnything:
@@ -57,7 +57,7 @@ jobs:
         scm {
           git {
             remote {
-              url('https://github.com/Emanuel4848/springboot2.git')
+              url('https://github.com/Emanuel4848/springboot-devops-demo.git')
             }
             branch('*/develop')
           }
