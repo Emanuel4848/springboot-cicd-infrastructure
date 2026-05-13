@@ -10,7 +10,7 @@ El proyecto implementa un flujo real de CI/CD utilizando ramas Git (`feature`, `
 
 ---
 
-# 🏗️ Arquitectura Implementada
+# Arquitectura Implementada
 
 La infraestructura se compone de 3 instancias principales:
 
@@ -47,7 +47,7 @@ Responsable de:
 
 ---
 
-# ⚙️ Tecnologías Utilizadas
+# Tecnologías Utilizadas
 
 - Terraform
 - DigitalOcean
@@ -67,7 +67,7 @@ Responsable de:
 
 ---
 
-# 🚀 Flujo Completo CI/CD
+# Flujo Completo CI/CD
 
 ## 🔹 Desarrollo
 
@@ -172,7 +172,7 @@ Puertos:
 
 ---
 
-# 🏗️ Infrastructure as Code (IaC)
+# Infrastructure as Code (IaC)
 
 Toda la infraestructura fue automatizada utilizando Terraform:
 
@@ -201,7 +201,7 @@ Toda la infraestructura fue automatizada utilizando Terraform:
 
 ---
 
-# 📂 Estructura del Proyecto
+# Estructura del Proyecto
 
 ```text
 infra/
@@ -238,7 +238,7 @@ terraform apply
 
 ---
 
-# 📌 Resultado Final
+# Resultado Final
 
 El proyecto permite:
 
@@ -262,7 +262,7 @@ The project implements a real CI/CD workflow using Git branches (`feature`, `dev
 
 ---
 
-# 🏗️ Implemented Architecture
+# Implemented Architecture
 
 The infrastructure consists of 3 main servers:
 
@@ -299,7 +299,7 @@ Responsible for:
 
 ---
 
-# ⚙️ Technologies Used
+# Technologies Used
 
 - Terraform
 - DigitalOcean
@@ -319,7 +319,7 @@ Responsible for:
 
 ---
 
-# 🚀 Complete CI/CD Workflow
+# Complete CI/CD Workflow
 
 ```text
 feature/* → develop → main
@@ -374,7 +374,7 @@ Services:
 
 ---
 
-# 🏗️ Infrastructure as Code
+# Infrastructure as Code
 
 Infrastructure automated using Terraform:
 
@@ -389,7 +389,7 @@ Infrastructure automated using Terraform:
 
 ---
 
-# ▶️ Deployment
+# Deployment
 
 Initialize Terraform:
 
@@ -405,7 +405,7 @@ terraform apply
 
 ---
 
-# 📌 Final Result
+# Final Result
 
 The project provides:
 
