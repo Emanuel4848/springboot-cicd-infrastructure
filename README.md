@@ -10,11 +10,11 @@ El proyecto implementa un flujo real de CI/CD utilizando ramas Git (`feature`, `
 
 ---
 
-# 🏗️ Arquitectura Implementada
+#  Arquitectura Implementada
 
 La infraestructura se compone de 3 instancias principales:
 
-## 1️⃣ Jenkins Server (Continuous Integration)
+## 1️. Jenkins Server (Continuous Integration)
 
 Responsable de:
 
@@ -26,7 +26,7 @@ Responsable de:
 
 ---
 
-## 2️⃣ Private Docker Registry
+## 2️. Private Docker Registry
 
 Responsable de:
 
@@ -36,7 +36,7 @@ Responsable de:
 
 ---
 
-## 3️⃣ Consumer Server (Continuous Delivery)
+## 3️. Consumer Server (Continuous Delivery)
 
 Responsable de:
 
@@ -47,7 +47,7 @@ Responsable de:
 
 ---
 
-# ⚙️ Tecnologías Utilizadas
+#  Tecnologías Utilizadas
 
 - Terraform
 - DigitalOcean
@@ -67,7 +67,7 @@ Responsable de:
 
 ---
 
-# 🚀 Flujo Completo CI/CD
+#  Flujo Completo CI/CD
 
 ## 🔹 Desarrollo
 
@@ -136,7 +136,7 @@ GitHub Actions ejecuta automáticamente:
 
 ---
 
-# 🐳 Docker Compose Multiambiente
+#  Docker Compose Multiambiente
 
 El proyecto implementa dos ambientes independientes:
 
@@ -172,7 +172,7 @@ Puertos:
 
 ---
 
-# 🏗️ Infrastructure as Code (IaC)
+#  Infrastructure as Code (IaC)
 
 Toda la infraestructura fue automatizada utilizando Terraform:
 
@@ -191,7 +191,7 @@ Toda la infraestructura fue automatizada utilizando Terraform:
 
 ---
 
-# 🔒 Seguridad Implementada
+#  Seguridad Implementada
 
 - Variables sensibles mediante Terraform Variables
 - Tokens ocultos mediante `sensitive = true`
@@ -201,7 +201,7 @@ Toda la infraestructura fue automatizada utilizando Terraform:
 
 ---
 
-# 📂 Estructura del Proyecto
+#  Estructura del Proyecto
 
 ```text
 infra/
@@ -238,17 +238,17 @@ terraform apply
 
 ---
 
-# 📌 Resultado Final
+#  Resultado Final
 
 El proyecto permite:
 
-✅ Aprovisionamiento automático de infraestructura  
-✅ Integración continua automatizada  
-✅ Entrega continua automatizada  
-✅ Construcción automática de imágenes Docker  
-✅ Registry privado  
-✅ Despliegue automático multiambiente  
-✅ Infraestructura reproducible con Terraform  
+ Aprovisionamiento automático de infraestructura  
+ Integración continua automatizada  
+ Entrega continua automatizada  
+ Construcción automática de imágenes Docker  
+ Registry privado  
+ Despliegue automático multiambiente  
+ Infraestructura reproducible con Terraform  
 
 ---
 
@@ -262,11 +262,11 @@ The project implements a real CI/CD workflow using Git branches (`feature`, `dev
 
 ---
 
-# 🏗️ Implemented Architecture
+#  Implemented Architecture
 
 The infrastructure consists of 3 main servers:
 
-## 1️⃣ Jenkins Server (Continuous Integration)
+## 1️. Jenkins Server (Continuous Integration)
 
 Responsible for:
 
@@ -278,7 +278,7 @@ Responsible for:
 
 ---
 
-## 2️⃣ Private Docker Registry
+## 2️. Private Docker Registry
 
 Responsible for:
 
@@ -288,7 +288,7 @@ Responsible for:
 
 ---
 
-## 3️⃣ Consumer Server (Continuous Delivery)
+## 3️. Consumer Server (Continuous Delivery)
 
 Responsible for:
 
@@ -299,7 +299,7 @@ Responsible for:
 
 ---
 
-# ⚙️ Technologies Used
+#  Technologies Used
 
 - Terraform
 - DigitalOcean
@@ -319,7 +319,7 @@ Responsible for:
 
 ---
 
-# 🚀 Complete CI/CD Workflow
+#  Complete CI/CD Workflow
 
 ```text
 feature/* → develop → main
@@ -352,7 +352,7 @@ feature/* → develop → main
 
 ---
 
-# 🐳 Multi-Environment Deployment
+# Multi-Environment Deployment
 
 ## Development Environment
 
@@ -374,7 +374,7 @@ Services:
 
 ---
 
-# 🏗️ Infrastructure as Code
+#  Infrastructure as Code
 
 Infrastructure automated using Terraform:
 
@@ -389,7 +389,7 @@ Infrastructure automated using Terraform:
 
 ---
 
-# ▶️ Deployment
+#  Deployment
 
 Initialize Terraform:
 
@@ -405,17 +405,17 @@ terraform apply
 
 ---
 
-# 📌 Final Result
+#  Final Result
 
 The project provides:
 
-✅ Automated infrastructure provisioning  
-✅ Automated Continuous Integration  
-✅ Automated Continuous Delivery  
-✅ Automated Docker image builds  
-✅ Private Docker Registry  
-✅ Multi-environment deployment  
-✅ Reproducible infrastructure using Terraform  
+ Automated infrastructure provisioning  
+ Automated Continuous Integration  
+ Automated Continuous Delivery  
+ Automated Docker image builds  
+ Private Docker Registry  
+ Multi-environment deployment  
+ Reproducible infrastructure using Terraform  
 
 ---
 
