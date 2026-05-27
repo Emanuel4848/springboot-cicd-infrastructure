@@ -10,7 +10,8 @@ El proyecto implementa un flujo real de CI/CD utilizando ramas Git (`feature`, `
 
 ---
 
-#  Arquitectura Implementada
+
+# Arquitectura Implementada
 
 La infraestructura se compone de 3 instancias principales:
 
@@ -47,7 +48,8 @@ Responsable de:
 
 ---
 
-#  Tecnologías Utilizadas
+
+# Tecnologías Utilizadas
 
 - Terraform
 - DigitalOcean
@@ -67,7 +69,8 @@ Responsable de:
 
 ---
 
-#  Flujo Completo CI/CD
+
+# Flujo Completo CI/CD
 
 ## 🔹 Desarrollo
 
@@ -172,7 +175,8 @@ Puertos:
 
 ---
 
-#  Infrastructure as Code (IaC)
+
+# Infrastructure as Code (IaC)
 
 Toda la infraestructura fue automatizada utilizando Terraform:
 
@@ -201,7 +205,8 @@ Toda la infraestructura fue automatizada utilizando Terraform:
 
 ---
 
-#  Estructura del Proyecto
+
+# Estructura del Proyecto
 
 ```text
 infra/
@@ -222,7 +227,7 @@ infra/
 
 ---
 
-# ▶️ Despliegue
+#  Despliegue
 
 Inicializar Terraform:
 
@@ -238,7 +243,8 @@ terraform apply
 
 ---
 
-#  Resultado Final
+
+# Resultado Final
 
 El proyecto permite:
 
@@ -252,7 +258,7 @@ El proyecto permite:
 
 ---
 
-# 🇺🇸 English Description
+# 🇺🇸 Description
 
 Complete DevOps project focused on Infrastructure as Code, Continuous Integration (CI), Continuous Delivery (CD), and automated deployment of containerized applications.
 
@@ -262,7 +268,8 @@ The project implements a real CI/CD workflow using Git branches (`feature`, `dev
 
 ---
 
-#  Implemented Architecture
+
+# Implemented Architecture
 
 The infrastructure consists of 3 main servers:
 
@@ -299,7 +306,8 @@ Responsible for:
 
 ---
 
-#  Technologies Used
+
+# Technologies Used
 
 - Terraform
 - DigitalOcean
@@ -319,7 +327,8 @@ Responsible for:
 
 ---
 
-#  Complete CI/CD Workflow
+
+# Complete CI/CD Workflow
 
 ```text
 feature/* → develop → main
@@ -374,7 +383,8 @@ Services:
 
 ---
 
-#  Infrastructure as Code
+
+# Infrastructure as Code
 
 Infrastructure automated using Terraform:
 
@@ -389,7 +399,8 @@ Infrastructure automated using Terraform:
 
 ---
 
-#  Deployment
+
+# Deployment
 
 Initialize Terraform:
 
@@ -405,7 +416,8 @@ terraform apply
 
 ---
 
-#  Final Result
+
+# Final Result
 
 The project provides:
 
