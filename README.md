@@ -1,3 +1,9 @@
+## Architecture Diagram
+
+![CI/CD Architecture](architecture-diagram.png)
+
+
+
 # Spring Boot CI/CD Infrastructure with Terraform, Jenkins and Docker
 
 ## 🇪🇸 Descripción
