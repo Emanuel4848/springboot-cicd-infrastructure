@@ -279,6 +279,11 @@ The project implements a real CI/CD workflow using Git branches (`feature`, `dev
 
 ---
 
+# Backend Repository
+This repository contains the backend application that was used to implement the complete pipeline:
+https://github.com/Emanuel4848/springboot-devops-demo
+
+---
 
 # Implemented Architecture
 
