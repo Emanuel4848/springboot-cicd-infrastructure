@@ -16,6 +16,11 @@ El proyecto implementa un flujo real de CI/CD utilizando ramas Git (`feature`, `
 
 ---
 
+# Repositorio del Backend
+En este respostiroio se encuentra la aplicación backend que se utilizó para implementar el pipeline completo:
+https://github.com/Emanuel4848/springboot-devops-demo
+
+---
 
 # Arquitectura Implementada
 
